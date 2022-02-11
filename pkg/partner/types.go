@@ -47,14 +47,14 @@ type (
 		CSPOfferOptIn               *bool                    `json:"microsoft-azure-marketplace.cspOfferOptIn,omitempty"`
 		OfferMarketingURLIdentifier string                   `json:"microsoft-azure-marketplace.offerMarketingUrlIdentifier,omitempty"`
 		AllowedSubscriptions        []string                 `json:"microsoft-azure-marketplace.allowedSubscriptions,omitempty"`
-		UsefulLinks                 []string                 `json:"microsoft-azure-marketplace.usefulLinks,omitempty"`
+		UsefulLinks                 []map[string]interface{} `json:"microsoft-azure-marketplace.usefulLinks,omitempty"`
 		Categories                  []string                 `json:"microsoft-azure-marketplace.categories,omitempty"`
 		CategoryMap                 []map[string]interface{} `json:"microsoft-azure-marketplace.categoryMap,omitempty"`
 		SmallLogo                   string                   `json:"microsoft-azure-marketplace.smallLogo,omitempty"`
 		MediumLogo                  string                   `json:"microsoft-azure-marketplace.mediumLogo,omitempty"`
 		WideLogo                    string                   `json:"microsoft-azure-marketplace.wideLogo,omitempty"`
 		ScreenShots                 []string                 `json:"microsoft-azure-marketplace.screenshots,omitempty"`
-		Videos                      []string                 `json:"microsoft-azure-marketplace.videos,omitempty"`
+		Videos                      []map[string]interface{} `json:"microsoft-azure-marketplace.videos,omitempty"`
 		LeadDestination             string                   `json:"microsoft-azure-marketplace.leadDestination,omitempty"`
 		PrivacyURL                  string                   `json:"microsoft-azure-marketplace.privacyURL,omitempty"`
 		UseEnterpriseContract       *bool                    `json:"microsoft-azure-marketplace.useEnterpriseContract,omitempty"`
@@ -82,6 +82,14 @@ type (
 		CoreMultiplier            *CoreMultiplier `json:"coreMultiplier,omitempty"`
 	}
 
+	// DiskGeneration is the VMImages with other Generation of images
+	DiskGeneration struct {
+		PlanID       string                         `json:"planId,omitempty"`
+		LegacyPlanID string                         `json:"microsoft-azure-virtualmachines.legacyPlanId,omitempty"`
+		Generation   string                         `json:"microsoft-azure-virtualmachines.generation"`
+		VMImages     map[string]VirtualMachineImage `json:"microsoft-azure-virtualmachines.vmImages,omitempty"`
+	}
+
 	// PlanVirtualMachineDetail contains the details for virtual machine SKUs
 	PlanVirtualMachineDetail struct {
 		SKUTitle                       string                         `json:"microsoft-azure-virtualmachines.skuTitle,omitempty"`
@@ -98,6 +106,7 @@ type (
 		OperationSystem                string                         `json:"microsoft-azure-virtualmachines.operationSystem,omitempty"`
 		RecommendedVirtualMachineSizes []string                       `json:"microsoft-azure-virtualmachines.recommendedVMSizes,omitempty"`
 		VMImages                       map[string]VirtualMachineImage `json:"microsoft-azure-virtualmachines.vmImages,omitempty"`
+		DiskGeneration                 []DiskGeneration               `json:"diskGenerations,omitempty"`
 	}
 
 	// DeploymentModelOption provides a constrained set of deployment modes

@@ -51,10 +51,21 @@ func newPutImageCmd(sl service.CommandServicer) (*cobra.Command, error) {
 		Use:   "image",
 		Short: "put a vm image version for a given plan",
 		Run: getAndPutMutatedPlan(sl, &oArgs, func(plan *partner.Plan, version string, vm partner.VirtualMachineImage) {
+			planID := "rta-gen2"
+			generation := string('2')
 			if plan.PlanVirtualMachineDetail.VMImages == nil {
 				plan.PlanVirtualMachineDetail.VMImages = make(map[string]partner.VirtualMachineImage)
+				var diskgenerations []partner.DiskGeneration = make([]partner.DiskGeneration, 0)
+				plan.PlanVirtualMachineDetail.DiskGeneration = diskgenerations
 			}
 			plan.PlanVirtualMachineDetail.VMImages[version] = vm
+			plan.PlanVirtualMachineDetail.DiskGeneration = append(plan.PlanVirtualMachineDetail.DiskGeneration, partner.DiskGeneration{
+				PlanID:       planID,
+				LegacyPlanID: planID,
+				Generation:   generation,
+				VMImages:     make(map[string]partner.VirtualMachineImage),
+			})
+			plan.PlanVirtualMachineDetail.DiskGeneration[0].VMImages[version] = vm
 		}),
 	}
 
